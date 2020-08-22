@@ -1,5 +1,10 @@
 """
 Parse a STEP file into a dictionary
+Functionality to add:
+1) Search by property name
+2) Search by dictionary name and label.
+3) Expanded structure:
+
 """
 import os
 import re
@@ -7,7 +12,6 @@ import sys
 import pprint
 import collections
 import json
-
 
 def file_to_string(fname):
     """
@@ -40,7 +44,6 @@ def split_lines(in_string):
     """
     lines = re.split(';', in_string)
     return lines
-
 
 def to_type(instr):
     try:
@@ -138,6 +141,7 @@ def from_json(filename):
 
 def iter_args(in_list, data, result):
     """
+    Recursively handle creation of
     :param in_list: list of args and lists
     :param data: the dict-ified data fork of a step file
     :param result: list that will contain nested lists of expanded # labels
@@ -146,11 +150,26 @@ def iter_args(in_list, data, result):
         if isinstance(arg, list):
             result.append([])
             iter_args(arg, data, result[-1])
+        # If its a label starting with #, then create a new list containing
         elif isinstance(arg, str) and arg.startswith('#'):
             newlist = data[arg]
             iter_args(newlist, data, result)
         else:
             result.append(arg)
+
+def contains_query(line, string):
+    return string in str(line)
+
+
+def query(data_dict, string):
+    result = []
+    for label in data_dict['data'].keys():
+        if contains_query(data_dict['data'][label], string):
+            result.append((label, data_dict['data'][label]))
+
+    return result
+    # Call contains_query on every line
+    # Append line to results if match is found.
 
 def usage():
     """
@@ -171,7 +190,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     filename = sys.argv[1]
-    label =    sys.argv[2]
+    label = sys.argv[2]
+
     json_filename = ".".join([os.path.splitext(filename)[0], "json"])
     # Convert STEP file to python structure
     step_dict = step_to_dict(filename)
@@ -182,13 +202,20 @@ if __name__ == "__main__":
     # load from json file
     new_dict = from_json(json_filename)
 
-    # grab the data associated with a label
-    line = new_dict['data'][label]
-    print("Requested line:", label, line)
-    expanded = []
-    iter_args(line, step_dict['data'], expanded )
+    if label.startswith('#'):
+        # grab the data associated with a label
+        line = new_dict['data'][label]
+        print("Requested line:", label, line)
+        expanded = []
+        iter_args(line, step_dict['data'], expanded)
+        print("Expanded structure:", expanded)
+    else:
+        matches = query(new_dict, sys.argv[2])
+        for match in matches:
+            print(match)
 
-    print("Expanded structure:", expanded)
+    # pp = pprint.PrettyPrinter()
+    # pp.pprint(expanded)
 
     #pp = pprint.PrettyPrinter()
     #pp.pprint(step_dict)
