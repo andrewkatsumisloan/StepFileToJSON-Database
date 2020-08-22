@@ -1,10 +1,5 @@
 """
-Parse a STEP file into a dictionary
-Functionality to add:
-1) Search by property name
-2) Search by dictionary name and label.
-3) Expanded structure:
-
+Parse a STEP file into a dictionary, make it "queryable in any way" as JSON
 """
 import os
 import re
