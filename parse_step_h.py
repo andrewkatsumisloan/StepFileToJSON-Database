@@ -1,5 +1,5 @@
 """
-Parse a STEP file into a dictionary, make it "queryable in any way" as JSON
+Parse a STEP file into a dictionary
 """
 import os
 import re
@@ -157,6 +157,11 @@ def contains_query(line, string):
 
 
 def query(data_dict, string):
+    """
+    :param data_dict: the dictionary passed in by user
+    :param string: the string that the user is querying by
+    :return: a list containing all of the instances of the lines that contain the string
+    """
     result = []
     for label in data_dict['data'].keys():
         if contains_query(data_dict['data'][label], string):
@@ -197,6 +202,7 @@ if __name__ == "__main__":
     # load from json file
     new_dict = from_json(json_filename)
 
+    # Either prints expanded dictionary or
     if label.startswith('#'):
         # grab the data associated with a label
         line = new_dict['data'][label]
