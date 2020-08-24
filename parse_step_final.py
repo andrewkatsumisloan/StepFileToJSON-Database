@@ -10,13 +10,13 @@ There are two different types of arguments this program accepts
 
 Examples:
 LINUX TERMINAL
-    python3 parse_step.py step_test_1.STEP '#33'
+    python3 parse_step_final.py step_test_1.STEP '#33'
         - Returns a nested list containing line #33 and its expanded references.
 
-    python3 parse_step.py step_test_1.STEP VECTOR
+    python3 parse_step_final.py step_test_1.STEP VECTOR
         - Returns every line that contains the string of characters VECTOR in the properties or values fields.
 
-    python3 parse_step.pu step_test_1.STEP 39
+    python3 parse_step_final.py step_test_1.STEP 39
         - Returns every line that contains '39' in the properties or values fields
 """
 
