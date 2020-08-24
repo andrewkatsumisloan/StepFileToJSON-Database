@@ -174,7 +174,7 @@ def from_json(filename):
 
 def iter_args(in_list, data, result):
     """
-    Recursively handle creation of list containing nested lists (to show expanded dictionary)
+    Recursively handle creation of list containing nested lists (to show expanded list)
     :param in_list: line to be expanded
     :param data: the dict-ified data seg of a step file
     :param result: list that will contain nested lists of expanded # labels
