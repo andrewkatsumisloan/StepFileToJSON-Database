@@ -2,5 +2,5 @@
 
 UES Project (Work in Progress)
 
---> Convert .TEST to searchable JSON object
+--> Convert .STEP to searchable JSON object
 
