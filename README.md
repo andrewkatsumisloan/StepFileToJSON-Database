@@ -1,3 +1,5 @@
+#STEP FILE TO SEARCHABLE/QUERYABLE JSON OBJECT FOR STORAGE IN DATABASE 
+
 This is a command line utility that enables the user to convert a .STEP to searchable JSON object.  
 
 
